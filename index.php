@@ -1,42 +1,60 @@
-<?php 
+<?php
 require_once __DIR__ . '/includes/functions.php';
+require_once __DIR__ . '/includes/track_utm.php';
+
+// Get tutor redirect path based on utm_tutor parameter
 $tutors = loadJSON('./data/tutors.json');
-$utm = loadJSON('./data/utm.json');
+$utm_tutor = $_GET['utm_tutor'] ?? null;
+$redirect = 'dashboard.php'; // fallback if no match
 
-// Merge tutor and UTM stats
-$merged = mergeTutorStats($tutors, $utm);
-$ranked = rankTutors($merged);
+if ($utm_tutor) {
+  foreach ($tutors as $tutor) {
+    if ($tutor['utm'] === $utm_tutor) {
+      $redirect = 'tutor.php?id=' . $tutor['id'];
+      break;
+    }
+  }
+}
+
+// Redirect after tracking
+header("Refresh: 2; url=$redirect");
 ?>
-<?php include './includes/header.php'; ?>
-
-<main class="dashboard">
-  <h1>🏆 Tutor Performance Dashboard</h1>
-
-  <div class="sort-bar">
-    <button class="active" id="sort-top">Top Performers</button>
-    <button id="sort-all">All Tutors</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultancy Firm | Tracking...</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    body {
+      background: #0a0f24;
+      color: #00f7ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      text-align: center;
+    }
+    .landing-container {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 2rem 3rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 0 20px rgba(0,255,255,0.1);
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+  </style>
+</head>
+<body>
+  <div class="landing-container">
+    <h1>Consultancy Firm</h1>
+    <p>Tracking your visit... Redirecting to your tutor’s profile ⏳</p>
   </div>
-
-  <section id="leaderboard" class="cards-grid">
-    <?php foreach ($ranked as $index => $tutor): ?>
-      <div class="card" data-id="<?= $tutor['id'] ?>">
-        <div class="card-rank">
-          <?= $index + 1 <= 3 ? getMedal($index + 1) : '#' . ($index + 1); ?>
-        </div>
-        <img src="<?= $tutor['profile_pic'] ?>" alt="<?= $tutor['name'] ?>" class="avatar">
-        <h2><?= $tutor['name'] ?></h2>
-        <p><?= $tutor['bio'] ?></p>
-
-        <div class="stats">
-          <span>Clicks: <b><?= $tutor['clicks'] ?? 0 ?></b></span>
-          <span>Sales: <b><?= $tutor['sales'] ?? 0 ?></b></span>
-        </div>
-
-        <a href="tutor.php?id=<?= $tutor['id'] ?>" class="btn">View Profile</a>
-      </div>
-    <?php endforeach; ?>
-  </section>
-</main>
-
-<script src="assets/js/fetchUTM.js"></script>
-<?php include './includes/footer.php'; ?>
+</body>
+</html>
