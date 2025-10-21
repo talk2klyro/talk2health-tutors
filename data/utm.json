@@ -1,4 +1,4 @@
 [
-  { "id": 1, "clicks": 450, "sales": 8 },
-  { "id": 2, "clicks": 310, "sales": 5 }
+  { "id": 1, "utm": "utm_tutor_aisha", "clicks": 0, "sales": 0 },
+  { "id": 2, "utm": "utm_tutor_david", "clicks": 0, "sales": 0 }
 ]
