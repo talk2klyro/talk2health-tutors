@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "Tutor Aisha",
+    "bio": "Public health educator focused on women’s wellness.",
+    "profile_pic": "assets/img/tutors/aisha.jpg",
+    "followers": 220,
+    "utm": "utm_tutor_aisha",
+    "social": {
+      "instagram": "@aisha_health",
+      "tiktok": "@aisha_mobilize"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Tutor David",
+    "bio": "STEM instructor helping students master critical thinking.",
+    "profile_pic": "assets/img/tutors/david.jpg",
+    "followers": 180,
+    "utm": "utm_tutor_david",
+    "social": {
+      "instagram": "@david_stem",
+      "tiktok": "@teachwithdavid"
+    }
+  }
+]
